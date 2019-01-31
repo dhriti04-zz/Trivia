@@ -8,17 +8,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SignInActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
     private Button btnSignIn, btnSignUp;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sign_in);
 
         setupUI();
+
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (firebaseUser != null){
+            finish();
+            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        }
+
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +57,8 @@ public class SignInActivity extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.et_password);
         btnSignIn = (Button) findViewById(R.id.btn_signin);
         btnSignUp = (Button) findViewById(R.id.btn_signup);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
