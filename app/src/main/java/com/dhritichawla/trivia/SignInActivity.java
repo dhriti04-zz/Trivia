@@ -2,12 +2,16 @@ package com.dhritichawla.trivia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -26,10 +30,11 @@ public class SignInActivity extends AppCompatActivity {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if (firebaseUser != null){
-            finish();
-            startActivity(new Intent(SignInActivity.this, MainActivity.class));
-        }
+//        if (firebaseUser != null){
+//            finish();
+//            Toast.makeText(SignInActivity.this, "Welcome back "+ firebaseUser +"!", Toast.LENGTH_LONG).show();
+//            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+//        }
 
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -37,8 +42,6 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateCredentials()){
                     // user has entered all details
-                } else {
-                    //
                 }
             }
         });
@@ -65,13 +68,23 @@ public class SignInActivity extends AppCompatActivity {
     private boolean validateCredentials(){
         Boolean output = false;
 
-        String email = etEmail.getText().toString();
+        final String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
 
         if (email.isEmpty() || password.isEmpty()){
             Toast.makeText(this, "Please fill details in all the fields!", Toast.LENGTH_LONG).show();
         } else {
-            output = true;
+           firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+               @Override
+               public void onComplete(@NonNull Task<AuthResult> task) {
+                   if (task.isSuccessful()){
+                       Toast.makeText(SignInActivity.this, "Welcome back "+ email +"!", Toast.LENGTH_LONG).show();
+                       startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                   } else {
+                       Toast.makeText(SignInActivity.this, "Email/password not associated with this account!", Toast.LENGTH_LONG).show();
+                   }
+               }
+           });
         }
 
         return output;
