@@ -21,11 +21,11 @@ public class Main2Activity extends Activity {
         List<TestModel> list = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             TestModel model = new TestModel();
             model.isFlipped = false;
             list.add(model);
         }
-        recyclerView.setAdapter(new MyRecyclerViewAdapter(list));
+        recyclerView.setAdapter(new MyRecyclerViewAdapter(this,list));
     }
 }
