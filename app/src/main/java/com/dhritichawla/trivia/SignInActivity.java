@@ -30,11 +30,11 @@ public class SignInActivity extends AppCompatActivity {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-//        if (firebaseUser != null){
-//            finish();
-//            Toast.makeText(SignInActivity.this, "Welcome back "+ firebaseUser +"!", Toast.LENGTH_LONG).show();
-//            startActivity(new Intent(SignInActivity.this, MainActivity.class));
-//        }
+        if (firebaseUser != null){
+            finish();
+            Toast.makeText(SignInActivity.this, "Welcome back "+ firebaseUser +"!", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(SignInActivity.this, Main2Activity.class));
+        }
 
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class SignInActivity extends AppCompatActivity {
                        Toast.makeText(SignInActivity.this, "Welcome back "+ email +"!", Toast.LENGTH_LONG).show();
                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
                    } else {
-                       Toast.makeText(SignInActivity.this, "Email/password not associated with this account!", Toast.LENGTH_LONG).show();
+                       Toast.makeText(SignInActivity.this, "Wrong email/password!", Toast.LENGTH_LONG).show();
                    }
                }
            });
